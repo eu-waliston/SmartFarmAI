@@ -1,4 +1,6 @@
-# Projeto de Monitoramento de Plantações com IA e IoT
+![Image](https://github.com/user-attachments/assets/43cc172d-0a65-4332-80c8-7fe714417535)
+
+
 
 Este projeto visa desenvolver uma solução de Inteligência Artificial (IA) para o monitoramento de plantações, com foco na **identificação de pragas e doenças nas plantas** utilizando a combinação de **sensores IoT** e **machine learning**. A solução será baseada em **PyTorch** e usa **sensores IoT** para coletar dados ambientais que afetam a saúde das plantas.
 
