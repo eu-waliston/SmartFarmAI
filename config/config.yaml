@@ -1,0 +1,27 @@
+model:
+  input_size: 224
+  num_classes: 10
+  learning_rate: 0.001
+  batch_size: 32
+  epochs: 50
+
+iot:
+  sensors:
+    tempeature:
+      min: -10
+      max: 50
+    humidity:
+      min: 0
+      max: 100
+    soil_ph:
+      min: 4.0
+      max: 9.0
+    ligh_intensity:
+      min: 0
+      max: 10000
+
+data:
+  image_trasnform:
+    resize: 224
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
