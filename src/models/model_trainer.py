@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 class PlantModelTrainer:
-    def __init__(self, model, config, device='cuda' if torch.cuda.is_available else 'cpu'):
+    def __init__(self, model, config, device='cuda' if torch.cuda.is_available() else 'cpu'):
         self.model = model.to(device)
         self.device = device
         self.config = config
@@ -25,10 +25,10 @@ class PlantModelTrainer:
         self.train_losses = []
         self.val_losses = []
         self.metrics_history = {
-            'accuracy': [], 'precisio': [], 'recall':[], 'f1':[]
+            'accuracy': [], 'precision': [], 'recall': [], 'f1': []
         }
 
-    def train_epoch(self, detaloader):
+    def train_epoch(self, dataloader):
         self.model.train()
         running_loss = 0.0
 
@@ -46,11 +46,11 @@ class PlantModelTrainer:
             if batch_idx % 50 == 0:
                 print(f'Batch {batch_idx}, Loss: {loss.item():.4f}')
 
-        return running_loss / len(detaloader)
+        return running_loss / len(dataloader)
 
     def validate(self, dataloader):
         self.model.eval()
-        val_los = 0.0
+        val_loss = 0.0
         all_preds = []
         all_labels = []
 
@@ -68,17 +68,17 @@ class PlantModelTrainer:
         # Calcular métricas
         accuracy = accuracy_score(all_labels, all_preds)
         precision = precision_score(all_labels, all_preds, average='weighted', zero_division=0)
-        recall = recall_score(all, all_preds, average='weighted', zero_division=0)
+        recall = recall_score(all_labels, all_preds, average='weighted', zero_division=0)
         f1 = f1_score(all_labels, all_preds, average='weighted', zero_division=0)
 
         metrics = {
-            'accuracy' : accuracy,
+            'accuracy': accuracy,
             'precision': precision,
-            'recall' : recall,
-            'f1' : f1
+            'recall': recall,
+            'f1': f1
         }
 
-        return val_los / len(dataloader), metrics
+        return val_loss / len(dataloader), metrics
 
     def train(self, train_loader, val_loader, epochs):
         print("Iniciando treinamento...")
@@ -92,7 +92,7 @@ class PlantModelTrainer:
             self.train_losses.append(train_loss)
             self.val_losses.append(val_loss)
 
-            # Atualizar histŕtico de métricas
+            # Atualizar histórico de métricas
             for key in self.metrics_history:
                 self.metrics_history[key].append(metrics[key])
 
@@ -104,7 +104,7 @@ class PlantModelTrainer:
             print(f'  LR: {self.optimizer.param_groups[0]["lr"]:.6f}')
 
     def plot_training_history(self):
-        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(15,10))
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 10))
 
         # Plot losses
         ax1.plot(self.train_losses, label='Train Loss')
